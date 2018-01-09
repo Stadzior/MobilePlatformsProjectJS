@@ -39,7 +39,7 @@ var dataModel = {
                 loadCurrencySet(url);
             }
             document.getElementById("saveChartButton").onclick = function (evt) {
-                var canvas = document.getElementById("myChart");
+                var canvas = document.getElementById("chart");
                 writeBlobToFile(canvas.msToBlob());
             }
 
