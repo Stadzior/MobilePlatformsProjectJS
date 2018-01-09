@@ -27,7 +27,7 @@ var dataModel = {
 
             document.getElementById("hearderText").innerHTML = "Historia waluty " + options.code;
             document.getElementById("back").onclick = function (evt) {
-                WinJS.Navigation.navigate("/skeleton.html");
+                WinJS.Navigation.navigate("/index.html");
             }
             document.getElementById("exitButton").onclick = function (evt) {
                 window.close();
@@ -246,7 +246,7 @@ function showMessage(message) {
 }
 
 function writeBlobToFile(blob) {
-    Windows.Storage.KnownFolders.picturesLibrary.createFileAsync("chart.jpg", Windows.Storage.CreationCollisionOption.generateUniqueName).then(function (file) {
+    var installDirectory = Windows.ApplicationModel.Package.current.installedLocation.createFileAsync("chart.jpg", Windows.Storage.CreationCollisionOption.generateUniqueName).then(function (file) {
         file.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (output) {
 
             var input = blob.msDetachStream();
@@ -256,7 +256,7 @@ function writeBlobToFile(blob) {
                     input.close();
                     output.close();
 
-                    showMessage("Zdjęcie zostało zapisane w Twoim domyślnym folderze ze zdjęciami");
+                    showMessage("Zdjęcie zostało zapisane w folderze aplikacji.");
                 });
             });
         });
