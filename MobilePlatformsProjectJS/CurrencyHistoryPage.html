@@ -1,9 +1,38 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <script src="Scripts/chart-2.7.1.min.js"></script>
+    <script src="Scripts/chart-2.7.1.js"></script>
+    <title>Historia waluty</title>
 </head>
 <body>
-    <div>Content goes here.</div>
+    <div align="center">
+        <h3 id="hearderText" color="black"></h3>
+        <input id="startDate" type="date" min="2002-01-02" />
+        <input id="endDate" type="date" min="2002-01-02" />
+        <button id="generateChart">Generuj</button>
+        <button class="win-button" id="saveAsPng">Zapisz jako png</button>
+    </div>
+
+    <div data-win-control="WinJS.UI.AppBar">
+        <button id="back" data-win-control="WinJS.UI.AppBarCommand"
+                data-win-options="{id:'backButton',
+            type: 'button',
+            label:'Back',
+            tooltip:'Back',
+            icon:'back',
+            section:'primary'
+            }"></button>
+        <button id="exitButton" data-win-control="WinJS.UI.AppBarCommand"
+                data-win-options="{id:'helpButton',
+            type: 'button',
+            label:'Help',
+            tooltip:'Help',
+            icon:'cancel',
+            section:'primary'
+            }"></button>
+    </div>
+    <canvas height="95%" style="background-color: white;" id="CurrencyHistoryChart"></canvas>
+
 </body>
 </html>
