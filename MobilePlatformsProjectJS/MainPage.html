@@ -1,54 +1,44 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <!--<meta charset="utf-8" />-->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>App3</title>
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-    <link href="lib/winjs-4.0.1/css/ui-light.css" rel="stylesheet" />
-    <script src="lib/winjs-4.0.1/js/base.js"></script>
-    <script src="lib/winjs-4.0.1/js/ui.js"></script>
-    <link href="css/default.css" rel="stylesheet" />
-    <script src="js/main.js"></script>
-    <script src="js/firstPage.js"></script>
-    <script src="js/HttpDownload.js"></script>
+﻿<script src="js/firstPage.js"></script>
+<script src="js/listScript.js"></script>
 
-</head>
-<body class="win-type-body">
+<div data-win-control="WinJS.UI.AppBar">
+    <button disabled="true" id="generateButton" data-win-control="WinJS.UI.AppBarCommand"
+            data-win-options="{id:'generateButton',
+    type: 'button',
+    label:'Generuj wykres',
+    tooltip:'Generuj wykres',
+    icon:'view',
+    section:'primary'
+    }" />
+    <button id="exitButton" data-win-control="WinJS.UI.AppBarCommand"
+            data-win-options="{id:'helpButton',
+    type: 'button',
+    label:'Wyjście',
+    tooltip:'Wyjście',
+    icon:'cancel',
+    section:'primary'
+    }" />
+</div>
 
-    <div data-win-control="WinJS.UI.AppBar">
-        <button id="exitButton" data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{id:'helpButton',
-            type: 'button',
-            label:'Help',
-            tooltip:'Help',
-            icon:'cancel',
-            section:'primary'
-            }"></button>
-    </div>
+<div align="center">
+    Rok:
+    <select id="yearSelect"></select>
+    Dzień:
+    <select id="daySelect"></select>
+</div>
 
-    <div align="center">
-        Rok:
-        <select id="yearSelect"></select>
-        Dzień:
-        <select id="daySelect"></select>
-        <button class="win-button" id="checkChart" disabled="true">Sprawdź wykres</button>
-    </div>
-
-    <div id="mediumListIconTextTemplate" data-win-control="WinJS.Binding.Template">
-        <div style="width: 150px; height: 100px; background: LightSteelBlue;">
-            <div>
-                <h4 data-win-bind="innerText: code" align="center" color="red"></h4>
-                <h5 data-win-bind="innerText: currency" align="center"></h5>
-                <h4 data-win-bind="innerText: mid" align="center"></h4>
-            </div>
+<div id="mediumListIconTextTemplate" data-win-control="WinJS.Binding.Template">
+    <div style="width: 150px; height: 100px; background: LightSteelBlue;">
+        <div>
+            <h4 data-win-bind="innerText: code" align="center" color="red"></h4>
+            <h5 data-win-bind="innerText: currency" align="center"></h5>
+            <h4 data-win-bind="innerText: mid" align="center"></h4>
         </div>
     </div>
+</div>
 
-    <div id="basicListView" data-win-control="WinJS.UI.ListView"
-         data-win-options="{itemDataSource : SourceData.itemList.dataSource,
-            itemTemplate: select('#mediumListIconTextTemplate'),
-                tapBehavior: 'toggleSelect' }" />
-
-</body>
-</html>
+<div id="basicListView"
+     data-win-control="WinJS.UI.ListView"
+     data-win-options="{itemDataSource : SourceData.itemList.dataSource,
+    itemTemplate: select('#mediumListIconTextTemplate'),
+        tapBehavior: 'toggleSelect' }" />

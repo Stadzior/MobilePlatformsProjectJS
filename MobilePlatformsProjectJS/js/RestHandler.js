@@ -1,7 +1,17 @@
-﻿var datePicker;
-var lView;
-var checkChartButton;
+﻿var lView;
 var dataArray = [];
+
+var apiModel = {
+    currencyList: "http://api.nbp.pl/api/exchangerates/tables/a/?format=xml",
+    currencyDates: "http://www.nbp.pl/kursy/xml/dir.txt",
+    currencyCursesForYear: function (val) {
+        return "http://www.nbp.pl/kursy/xml/dir" + val + ".txt"
+    },
+    currency: function (year, value) {
+        return "http://api.nbp.pl/api/exchangerates/tables/a/" + year + "-" + value + "/?format=xml";
+    }
+
+};
 
 (function () {
     "use strict";
@@ -17,40 +27,27 @@ var dataArray = [];
     WinJS.UI.Pages.define("/MainPage.html", {
         ready: function (elem, options) {
             pickedVal = [];
-            loadRemoteXhr("http://api.nbp.pl/api/exchangerates/tables/a/?format=xml");
-            loadRemoteDateXhr("http://www.nbp.pl/kursy/xml/dir.txt");
+            loadRemoteXhr(apiModel.currencyList);
+            loadRemoteDateXhr(apiModel.currencyDates);
             setupPicker();
 
-            var outputDateArea = document.getElementById("yearSelect");
-            for (var i = 2017; i >= 2002; i--) {
-                var o = document.createElement("option");
-                o.setAttribute("data-win-bind", "value: id; textContent: date");
-                o.value = i;
-                o.textContent = i;
-                outputDateArea.appendChild(o);
-            }
+            prepareYearSelect();
 
             document.getElementById("yearSelect").onchange = function (evt) {
                 var val = evt.currentTarget.value;
                 if (val == 2017) {
                     val = "";
                 }
-                loadRemoteDateXhr("http://www.nbp.pl/kursy/xml/dir" + val + ".txt");
+                loadRemoteDateXhr(apiModel.currencyCursesForYear(val));
             }
-
             document.getElementById("daySelect").onchange = function (evt) {
                 var year = document.getElementById("yearSelect").value;
-                loadRemoteXhr("http://api.nbp.pl/api/exchangerates/tables/a/" + year +"-" + evt.currentTarget.value + "/?format=xml");
+                loadRemoteXhr(apiModel.currency(year, evt.currentTarget.value));
             }
-
             document.getElementById("exitButton").onclick = function (evt) {
                 window.close();
             }
-            lView = document.getElementById("basicListView").winControl;
-            lView.addEventListener("selectionchanged", this.selectionChanged);
-            lView.addEventListener("selectionchanging", this.selectionChanging);
-
-            document.getElementById("checkChart").onclick = function (evt) {
+            document.getElementById("generateButton").onclick = function (evt) {
 
                 for (var i = 0; i < lView.selection._selected._ranges.length; i++) {
                     pickedVal[i] = dataArray[lView.selection._selected._ranges[i].firstIndex].code
@@ -59,22 +56,20 @@ var dataArray = [];
                 WinJS.Navigation.navigate("/CurrencyHistoryPage.html");
             };
 
-        },
-        checkChartClick: function (eventInfo) {
-            
+            lView = document.getElementById("basicListView").winControl;
+            lView.addEventListener("selectionchanged", this.selectionChanged);
+            lView.addEventListener("selectionchanging", this.selectionChanging);
+
         },
         selectionChanging: function (eventInfo) {
             if (lView.selection.count() >= 2) {
                 var itemOnList = false;
-                //var items = lView.selection.getItems();
-
                 if (eventInfo.detail.newSelection._ranges.length > 2)
                     event.preventDefault(); xhrParseCurrencyXml
-
             }
         },
         selectionChanged: function (eventInfo) {
-            checkChartButton = document.getElementById("checkChart");
+            var checkChartButton = document.getElementById("generateButton");
             if (lView.selection.count() > 0)
                 checkChartButton.disabled = false;
             else
@@ -86,6 +81,17 @@ var dataArray = [];
 
     app.start();
 })();
+
+function prepareYearSelect() {
+    var outputDateArea = document.getElementById("yearSelect");
+    for (var i = 2017; i >= 2002; i--) {
+        var o = document.createElement("option");
+        o.setAttribute("data-win-bind", "value: id; textContent: date");
+        o.value = i;
+        o.textContent = i;
+        outputDateArea.appendChild(o);
+    }
+}
 
 function loadRemoteXhr(queryURL) {
     WinJS.xhr({ url: queryURL }).then(
@@ -113,10 +119,6 @@ function xhrParseCurrencyXml(result) {
         outputArea.innerHTML =
             "Unable to retrieve data at this time. Status code: ";
     }
-    //document.getElementById("basicListView").winControl.oniteminvoked = function (evt) {
-    //    pickedVal = dataArray[evt.detail.itemIndex].code;
-    //    WinJS.Navigation.navigate("/chart.html");
-    //}
 }
 
 function loadRemoteDateXhr(queryURL) {
@@ -138,7 +140,7 @@ function xhrParseDateTxt(result) {
     var txtArray = txt.split("\n");
     if (txtArray) {
         var dateArray = [];
-        for (var i = txtArray.length-1; i >= 0 ; i--) {
+        for (var i = txtArray.length - 1; i >= 0; i--) {
             if (txtArray[i].charAt(0) == 'a') {
                 var dateToConv = txtArray[i].substring(5);
                 var month = dateToConv.substring(2, 4);
@@ -173,8 +175,8 @@ function xhrError(result) {
 
 function setupPicker() {
     var picker = document.getElementById("picker");
-    datePicker = new WinJS.UI.DatePicker(picker);
- 
+    var datePicker = new WinJS.UI.DatePicker(picker);
+
     datePicker.maxYear = 2017;
     datePicker.minYear = 2002;
 }

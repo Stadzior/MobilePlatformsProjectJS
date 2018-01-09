@@ -1,38 +1,44 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <script src="Scripts/chart-2.7.1.min.js"></script>
-    <script src="Scripts/chart-2.7.1.js"></script>
-    <title>Historia waluty</title>
-</head>
-<body>
-    <div align="center">
-        <h3 id="hearderText" color="black"></h3>
-        <input id="startDate" type="date" min="2002-01-02" />
-        <input id="endDate" type="date" min="2002-01-02" />
-        <button id="generateChart">Generuj</button>
-        <button class="win-button" id="saveAsPng">Zapisz jako png</button>
-    </div>
+﻿
+<script src="lib/chartjs/Chart.min.js"></script>
+<script src="js/chartScript.js"></script>
+<div align="center">
+    <h3 id="hearderText" color="black"></h3>
+    <input id="startDate" type="date" min="2002-01-02" />
+    <input id="endDate" type="date" min="2002-01-02" />
+</div>
 
-    <div data-win-control="WinJS.UI.AppBar">
-        <button id="back" data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{id:'backButton',
+<div data-win-control="WinJS.UI.AppBar">
+    <button id="generateChart" data-win-control="WinJS.UI.AppBarCommand"
+            data-win-options="{id:'generateChart',
             type: 'button',
-            label:'Back',
-            tooltip:'Back',
+            label:'Generuj wykres',
+            tooltip:'Generuj wykres',
+            icon:'accept',
+            section:'primary'
+            }" />
+    <button id="saveChartButton" data-win-control="WinJS.UI.AppBarCommand"
+            data-win-options="{id:'saveChartButton',
+            type: 'button',
+            label:'Zapisz',
+            tooltip:'Zapisz',
+            icon:'save',
+            section:'primary'
+            }" />
+    <button id="back" data-win-control="WinJS.UI.AppBarCommand"
+            data-win-options="{id:'back',
+            type: 'button',
+            label:'Cofnij',
+            tooltip:'Cofnij',
             icon:'back',
             section:'primary'
-            }"></button>
-        <button id="exitButton" data-win-control="WinJS.UI.AppBarCommand"
-                data-win-options="{id:'helpButton',
+            }" />
+    <button id="exitButton" data-win-control="WinJS.UI.AppBarCommand"
+            data-win-options="{id:'exitButton',
             type: 'button',
-            label:'Help',
-            tooltip:'Help',
+            label:'Wyjdź',
+            tooltip:'Wyjdź',
             icon:'cancel',
             section:'primary'
-            }"></button>
-    </div>
-    <canvas height="95%" style="background-color: white;" id="CurrencyHistoryChart"></canvas>
-
-</body>
-</html>
+            }" />
+</div>
+<canvas height="100%" id="chart"></canvas>
