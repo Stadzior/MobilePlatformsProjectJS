@@ -27,8 +27,8 @@ var apiModel = {
     WinJS.UI.Pages.define("/MainPage.html", {
         ready: function (elem, options) {
             pickedVal = [];
-            loadRemoteXhr(apiModel.currencyList);
-            loadRemoteDateXhr(apiModel.currencyDates);
+            loadRemote(apiModel.currencyList);
+            loadRemoteDate(apiModel.currencyDates);
             setupPicker();
 
             preparepickerYear();
@@ -38,11 +38,11 @@ var apiModel = {
                 if (val == 2017) {
                     val = "";
                 }
-                loadRemoteDateXhr(apiModel.currencyCursesForYear(val));
+                loadRemoteDate(apiModel.currencyCursesForYear(val));
             }
             document.getElementById("pickerDay").onchange = function (evt) {
                 var year = document.getElementById("pickerYear").value;
-                loadRemoteXhr(apiModel.currency(year, evt.currentTarget.value));
+                loadRemote(apiModel.currency(year, evt.currentTarget.value));
             }
             document.getElementById("exitButton").onclick = function (evt) {
                 window.close();
@@ -65,7 +65,7 @@ var apiModel = {
             if (lView.selection.count() >= 2) {
                 var itemOnList = false;
                 if (eventInfo.detail.newSelection._ranges.length > 2)
-                    event.preventDefault(); xhrParseCurrencyXml
+                    event.preventDefault(); parseCurrencyXml
             }
         },
         selectionChanged: function (eventInfo) {
@@ -93,13 +93,13 @@ function preparepickerYear() {
     }
 }
 
-function loadRemoteXhr(queryURL) {
+function loadRemote(queryURL) {
     WinJS.xhr({ url: queryURL }).then(
-        xhrParseCurrencyXml, xhrError
+        parseCurrencyXml, xhrError
     );
 }
 
-function xhrParseCurrencyXml(result) {
+function parseCurrencyXml(result) {
     var outputArea = document.getElementById("basicListView");
     var xml = result.responseXML;
     var counter = 0;
@@ -121,13 +121,13 @@ function xhrParseCurrencyXml(result) {
     }
 }
 
-function loadRemoteDateXhr(queryURL) {
+function loadRemoteDate(queryURL) {
     WinJS.xhr({ url: queryURL }).then(
-        xhrParseDateTxt, xhrError
+        parseDateTxt, xhrError
     );
 }
 
-function xhrParseDateTxt(result) {
+function parseDateTxt(result) {
     var outputDateArea = document.getElementById("pickerDay");
 
     for (var i = outputDateArea.options.length - 1; i >= 0; i--) {
