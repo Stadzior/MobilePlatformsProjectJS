@@ -1,5 +1,5 @@
 ﻿body {
-    background-color: whitesmoke;
+    background-color: bisque;
     height: 100%;
 }
 
@@ -30,5 +30,5 @@
 }
 
 .win-type-body h4 {
-    color: #FFFFFF !important;
+    color: #FFFFFF;
 }

@@ -31,17 +31,17 @@ var apiModel = {
             loadRemoteDateXhr(apiModel.currencyDates);
             setupPicker();
 
-            prepareYearSelect();
+            preparepickerYear();
 
-            document.getElementById("yearSelect").onchange = function (evt) {
+            document.getElementById("pickerYear").onchange = function (evt) {
                 var val = evt.currentTarget.value;
                 if (val == 2017) {
                     val = "";
                 }
                 loadRemoteDateXhr(apiModel.currencyCursesForYear(val));
             }
-            document.getElementById("daySelect").onchange = function (evt) {
-                var year = document.getElementById("yearSelect").value;
+            document.getElementById("pickerDay").onchange = function (evt) {
+                var year = document.getElementById("pickerYear").value;
                 loadRemoteXhr(apiModel.currency(year, evt.currentTarget.value));
             }
             document.getElementById("exitButton").onclick = function (evt) {
@@ -82,8 +82,8 @@ var apiModel = {
     app.start();
 })();
 
-function prepareYearSelect() {
-    var outputDateArea = document.getElementById("yearSelect");
+function preparepickerYear() {
+    var outputDateArea = document.getElementById("pickerYear");
     for (var i = 2017; i >= 2002; i--) {
         var o = document.createElement("option");
         o.setAttribute("data-win-bind", "value: id; textContent: date");
@@ -128,7 +128,7 @@ function loadRemoteDateXhr(queryURL) {
 }
 
 function xhrParseDateTxt(result) {
-    var outputDateArea = document.getElementById("daySelect");
+    var outputDateArea = document.getElementById("pickerDay");
 
     for (var i = outputDateArea.options.length - 1; i >= 0; i--) {
         outputDateArea.remove(i);

@@ -40,7 +40,7 @@ var dataModel = {
             }
             document.getElementById("saveChartButton").onclick = function (evt) {
                 var canvas = document.getElementById("chart");
-                writeBlobToFile(canvas.msToBlob());
+                saveToFile(canvas.msToBlob());
             }
 
             setMaxDate();
@@ -245,7 +245,7 @@ function showMessage(message) {
     myMessage.showAsync();
 }
 
-function writeBlobToFile(blob) {
+function saveToFile(blob) {
     var installDirectory = Windows.ApplicationModel.Package.current.installedLocation.createFileAsync("chart.jpg", Windows.Storage.CreationCollisionOption.generateUniqueName).then(function (file) {
         file.openAsync(Windows.Storage.FileAccessMode.readWrite).then(function (output) {
 
